@@ -18,31 +18,31 @@ urls = []
 for i in range(100000):
 
 	print("Getting page for " + url + ", iterations = " + str(i))
+	while(True):
+		try:
+			page = requests.get(url,proxies=proxies)
+		except requests.exceptions.RequestException as e:  # This is the correct syntax
+			print(e)
+			time.sleep(5)
+			continue
+		break
+
+	html = page.content
+	soup = BeautifulSoup(html,'lxml')
+	
+	Nat = soup.findAll('img')
+	image_source = ""
+	url_temp = ""
+	for nats in Nat:
+		if(nats['src'][len(nats['src'])-3:]=='jpg'):
+			image_source = nats['src']
+		if(nats['src'][len(nats['src'])-8:]=='next.gif'):
+			url_temp = "http://www.viruscomix.com/" + nats.parent['href']
+	
 	if(url not in urls):
-		while(True):
-			try:
-				page = requests.get(url,proxies=proxies)
-				millis = int(round(time.time() * 1000))-millis	
-				print("Distinct book after " + str(millis) + "ms!\nTotal distinct books = " + str(len(urls) + 1))	
-				millis = int(round(time.time() * 1000))
-			except requests.exceptions.RequestException as e:  # This is the correct syntax
-				print(e)
-				time.sleep(5)
-				continue
-			break
-
-		html = page.content
-		soup = BeautifulSoup(html,'lxml')
-		
-		Nat = soup.findAll('img')
-		image_source = ""
-		urls.append(url)
-		for nats in Nat:
-			if(nats['src'][len(nats['src'])-3:]=='jpg'):
-				image_source = nats['src']
-			if(nats['src'][len(nats['src'])-8:]=='next.gif'):
-				url = "http://www.viruscomix.com/" + nats.parent['href']
-
+		millis = int(round(time.time() * 1000))-millis	
+		print("Distinct book after " + str(millis) + "ms!\nTotal distinct books = " + str(len(urls) + 1))	
+		millis = int(round(time.time() * 1000))
 		while(True):
 			try:
 				response = requests.get("http://www.viruscomix.com/" + image_source, stream=True,proxies=proxies)
@@ -54,3 +54,6 @@ for i in range(100000):
 		with open('Comics/'+ image_source, 'wb') as out_file:
 			shutil.copyfileobj(response.raw, out_file)
 		del response
+		urls.append(url)
+
+	url = url_temp

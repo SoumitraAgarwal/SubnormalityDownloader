@@ -5,10 +5,11 @@ import requests
 import pandas as pd
 import shutil
 import time
+import os
 
 millis = int(round(time.time() * 1000))
 
-url = "http://www.viruscomix.com/page433.html"
+url = "http://www.viruscomix.com/page579.html"
 proxies = {
   'http': 'http://172.16.114.112:3128',
   'https': 'https://172.16.114.112:3128',
@@ -36,12 +37,12 @@ for i in range(100000):
 	for nats in Nat:
 		if(nats['src'][len(nats['src'])-3:]=='jpg'):
 			image_source = nats['src']
-		if(nats['src'][len(nats['src'])-8:]=='next.gif'):
+		if(nats['src'][len(nats['src'])-8:]=='next.gif' or nats['src'][:7]=='nextIIC'):
 			url_temp = "http://www.viruscomix.com/" + nats.parent['href']
 	
-	if(url not in urls):
+	if((url not in urls) and image_source!=""):
 		millis = int(round(time.time() * 1000))-millis	
-		print("Distinct book after " + str(millis) + "ms!\nTotal distinct books = " + str(len(urls) + 1))	
+		print("Book after " + str(millis) + "ms!\nTotal distinct books = " + str(len(os.listdir('Comics/'))))	
 		millis = int(round(time.time() * 1000))
 		while(True):
 			try:

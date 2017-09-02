@@ -9,7 +9,7 @@ import os
 
 millis = int(round(time.time() * 1000))
 
-url = "http://www.viruscomix.com/page579.html"
+url = "http://www.viruscomix.com/page369.html"
 proxies = {
   'http': 'http://172.16.114.112:3128',
   'https': 'https://172.16.114.112:3128',
@@ -37,7 +37,7 @@ for i in range(100000):
 	for nats in Nat:
 		if(nats['src'][len(nats['src'])-3:]=='jpg'):
 			image_source = nats['src']
-		if(nats['src'][len(nats['src'])-8:]=='next.gif' or nats['src'][:7]=='nextIIC'):
+		if('next' in nats['src'] or 'Next' in nats['src'] or 'NEXT' in nats['src']):
 			url_temp = "http://www.viruscomix.com/" + nats.parent['href']
 	
 	if((url not in urls) and image_source!=""):

@@ -11,12 +11,12 @@ millis = int(round(time.time() * 1000))
 
 
 proxies = {
-  'http': 'http://172.16.114.112:3128',
-  'https': 'https://172.16.114.112:3128',
+  'http': 'http://172.16.83.164:808',
+  'https': 'https://172.16.83.164:808',
 }
 
 urls = []
-for i in range(29,369):
+for i in range(12,369):
 
 	url = "http://www.viruscomix.com/page" + str(i) + ".html"
 	print("Getting page for " + str(i))
@@ -50,6 +50,6 @@ for i in range(29,369):
 				continue
 			break
 		
-		with open('Others/'+ Nat['src'], 'wb') as out_file:
+		with open('Others/'+ str(i) + ". " + Nat['src'], 'wb') as out_file:
 			shutil.copyfileobj(response.raw, out_file)
 		del response

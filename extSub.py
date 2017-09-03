@@ -9,10 +9,10 @@ import os
 
 millis = int(round(time.time() * 1000))
 
-url = "http://www.viruscomix.com/page369.html"
+url = "http://www.viruscomix.com/page324.html"
 proxies = {
-  'http': 'http://172.16.114.112:3128',
-  'https': 'https://172.16.114.112:3128',
+  'http': 'http://172.16.83.164:808',
+  'https': 'https://172.16.83.164:808',
 }
 
 urls = []
@@ -52,7 +52,7 @@ for i in range(100000):
 				time.sleep(5)
 				continue
 			break
-		with open('Comics/'+ image_source, 'wb') as out_file:
+		with open('Comics/'+ str(len(urls)) + ". " +  image_source, 'wb') as out_file:
 			shutil.copyfileobj(response.raw, out_file)
 		del response
 		urls.append(url)
